@@ -67,3 +67,7 @@ target/
 
 # Remove temporary text files
 *~
+
+
+# Remove api key files
+keys.txt
