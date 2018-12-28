@@ -71,3 +71,5 @@ target/
 
 # Remove api key files
 keys.txt
+
+.DS_Store
