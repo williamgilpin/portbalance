@@ -1,23 +1,29 @@
 # portbalance
 
-
-Calculation of optimal investment given a finite budget and a target portfolio allocation.
+A lightweight python library for maintaining and monitoring a stock portfolio. This library
+calculates an optimal investment given a finite budget and a target portfolio allocation.
 
 ### Dependencies
 
 Please install
 + numpy
 + matplotlib
++ pandas
++ pandas-datareader (for retrieving historical stock price data)
 + jupyter notebook (for using the tutorial notebook)
-+ pandas (for aquiring financial data)
+
 
 ### Instructions
 
-Decide on an investment portfolio strategy. Estimates (not necessarily accurate) of a few common portfolio strategies are given for educational purposes only.
+See `demo.ipynb` for a step-by-step walkthrough. Your portfolio can be entered as a string, or specified as a CSV file (see `sample_portfolio.txt`). The general steps are:
 
 + Enter your initial portfolio and holdings
++ Specify a target allocation among specific index funds, etc
 + Specify the amount of additional money that you want to invest
 + The code will calculate the best way to spend your money to reduce the difference vbetween your current allocations, and your target allocations
+
+Demonstrative investment portfolio strategies are contained in the function `get_strategy`. These estimates (which are not necessarily accurate) are given for educational purposes only.
+
 
 ### Assumptions
 
