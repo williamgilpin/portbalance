@@ -25,7 +25,7 @@ if len(glob.glob('keys.txt'))>0:
 else:
 	api_flag = 'rh'
 	warnings.warn("""Tiingo API key not found, falling back to robinhood API. To fix, 
-		sign up for an API key at the Tiingo website, then store it in a file "key.txt" 
+		sign up for an API key at the Tiingo website, then store it in a file "keys.txt" 
 		somewhere in the home directory""")
 
 

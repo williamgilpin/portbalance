@@ -12,6 +12,10 @@ Please install
 + pandas-datareader (for retrieving historical stock price data)
 + jupyter notebook (for using the tutorial notebook)
 
+### API Access
+
+Currently there are two APIs being used for stock data: Robinhood and Tiingo. To use the Tiingo API, sign up for a free account on the Tiingo website, which will come with an alphanumeric private key. Put this key into a text file called `keys.txt` in the base directory.
+If no `keys.txt` is found, then the library will fall back to using the Robinhood API, which has more limitations on pricing data.
 
 ### Instructions
 
