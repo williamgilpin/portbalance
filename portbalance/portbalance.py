@@ -7,7 +7,6 @@ and are not recommendations.
 
 """
 
-
 import warnings, glob, os
 import numpy as np
 import matplotlib.pyplot as plt
@@ -16,17 +15,7 @@ import pandas as pd
 import pandas_datareader.data as web
 import datetime as dt
 
-
-## Determine which api to use to retrieve price data, since these are somewhat unstable
-## TODO: Add tests to see which APIs are working
-if len(glob.glob('keys.txt'))>0:
-	api_key = str(np.loadtxt('keys.txt', dtype='str'))
-	api_flag = "tiingo"
-else:
-	api_flag = 'rh'
-	warnings.warn("""Tiingo API key not found, falling back to robinhood API. To fix, 
-		sign up for an API key at the Tiingo website, then store it in a file "keys.txt" 
-		somewhere in the home directory""")
+from .config import ROOT_DIR, _API_FLAG, _API_KEY
 
 
 def get_prices(symbols, start, end):
@@ -34,15 +23,17 @@ def get_prices(symbols, start, end):
 	A wrapper function for getting the prices of a
 	list of ticker symbols
 	
-	symbols : list of strings
-	start : datetime.datetime() of starting day
-	end : datetime.datetime() of starting day
+	Args:
+		symbols : list of strings
+		start : datetime.datetime() of starting day
+		end : datetime.datetime() of starting day
+	Returns:
+		out_df : pd.DataFrame containing dates and prices
 	"""
-	if api_flag=="tiingo":
-		out_df = web.get_data_tiingo(symbols, start, end, api_key=api_key)
-		# out_df = out_df.rename(columns={"close":"unAdjClose"})
+	if _API_FLAG=="tiingo":
+		out_df = web.get_data_tiingo(symbols, start, end, api_key=_API_KEY)
 		out_df = out_df.rename(columns={"adjClose":"close", "close":"unAdjClose"})
-	elif api_flag=='rh':
+	elif _API_FLAG=='rh':
 		out_df = web.DataReader(symbols, 'robinhood', start, end) 
 		out_df = out_df.rename(columns={'close_price':'close'})
 	else:
@@ -54,21 +45,33 @@ def get_current_prices(symbols):
 	"""
 	A wrapper function for get_prices that gets the most recent price data
 	available for a list of stocks
+
+	Args:
+		symbols : list of strings
+	Returns:
+		out : pd.Series containing symbols and their most recent prices
 	"""
 
 	price_df = get_prices(symbols, dt.datetime.now() - dt.timedelta(5), 
 					dt.datetime.now())
-	# Drop duplicate multiindices
+	# Drops duplicate multiindices
 	price_df = price_df[~price_df.index.get_level_values(0).duplicated(keep="last")]
-	return price_df['close']
+	out = price_df['close']
+	return out
 
 def get_strategy(name, stock_ratio=0.7):
 	"""
 	Given the string name of a strategy, return a portfolio allocation
 	as a dict()
-
-	name : "Betterment2016", "Bogleheads", "Betterment 2018"
-	stock_ratio : float specifying the fraction stocks (vs. bonds)
+	
+	Args:
+		name : A string specifying the investing strategy, such as
+			"Betterment2016", "Bogleheads", "Betterment 2018"
+		stock_ratio : float specifying the fraction stocks (vs. bonds)
+	
+	Returns:
+		strat : dict with keys denoting symbols, and values denoting
+			fractional representation in portfolio
 	"""
 
 	if name=="Bogleheads":
@@ -140,6 +143,9 @@ class Portfolio(object):
 
 	def __setitem__(self, key, item):
 		self.portfolio[key] = item
+
+	def __str__(self):
+		return str(self.portfolio)
 
 	def current_values(self):
 		"""
