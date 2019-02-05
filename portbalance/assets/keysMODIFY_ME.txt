@@ -1,0 +1,1 @@
+Replace this text with your Tiingo API key, and then rename this file "keys.txt"
