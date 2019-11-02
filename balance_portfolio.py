@@ -10,7 +10,7 @@ Then, in the command line, run
 
 where 1000 is the amount (in USD) that you want to invest
 """
-
+#!/usr/bin/env python
 import argparse
 import os
 import glob

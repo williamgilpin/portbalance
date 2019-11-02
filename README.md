@@ -23,7 +23,7 @@ This package was written by [William Gilpin](http://wgilpin.com)
 	python tests/test_portbalance.py
 
 
-Notes: 
+Installation Notes: 
 
 Only Python 3 is currently supported, due to limitations on API availability. The following packages are required and may be installed
 
@@ -66,9 +66,9 @@ This will produce an output of the form
 
 As a default, portbalance assumes a 100% stock Bogleheads portfolio (70% US domestic, 30% international index funds). To change the strategy to another one of the defaults, specify the strategy as an optional argument
 
-	> python balance_portfolio.py 1000 --allocation 
+	> python balance_portfolio.py 1000 --allocation Betterment2018
 
-Which will produce the output
+Which produces the output
 
 	Net return on principal: 0.5346585469336369 
 
