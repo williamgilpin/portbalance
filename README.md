@@ -25,7 +25,7 @@ This package was written by [William Gilpin](http://wgilpin.com)
 
 Installation Notes: 
 
-Only Python 3 is currently supported, due to limitations on API availability. The following packages are required and may be installed
+Only Python 3 is currently supported, due to limitations on API availability. The following packages are required and may be installed:
 
 + numpy
 + matplotlib
