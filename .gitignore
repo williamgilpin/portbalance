@@ -69,7 +69,8 @@ target/
 *~
 
 
-# Remove api key files
+# Remove api key files and personal data
 keys.txt
+private_portfolio.txt
 
 .DS_Store

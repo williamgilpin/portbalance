@@ -18,7 +18,6 @@ This package was written by [William Gilpin](http://wgilpin.com)
 
 	python setup.py install
 
-
 5. Test the installation by running
 
 	python tests/test_portbalance.py
@@ -26,8 +25,7 @@ This package was written by [William Gilpin](http://wgilpin.com)
 
 Notes: 
 
-
-The following packages are required and may be installed
+Only Python 3 is currently supported, due to limitations on API availability. The following packages are required and may be installed
 
 + numpy
 + matplotlib
@@ -39,14 +37,55 @@ Additionally, you may consider also installing Jupyter in order to use the demos
 
 ### Instructions
 
-See `demos/demo.ipynb` for a step-by-step walkthrough. Your portfolio can be entered as a string, or specified as a CSV file (see `demos/sample_portfolio.txt`). The general steps are:
+The general steps for using the tool are:
 
-+ Enter your initial portfolio and holdings
-+ Specify a target allocation among specific index funds, etc
-+ Specify the amount of additional money that you want to invest
-+ The code will calculate the best way to spend your money to reduce the difference vbetween your current allocations, and your target allocations
+1. Enter your initial portfolio and holdings
+2. Specify a target allocation among specific index funds, etc
+3. Specify the amount of additional money that you want to invest
+4. Run this code to calculate the best way to spend your money, in order to reduce the difference between your current allocations, and your target allocations
 
-Demonstrative investment portfolio strategies are contained in the function `get_strategy`. These estimates (which are not necessarily accurate) are given for educational purposes only.
+Place a text file containing your portfolio as a text file at `resources/private_portfolio.txt` Example files are included with the installation that show the correct formatting, but the general format of the portfolio file should be a CSV file with rows of the form `NAME, NUMSHARES, DATE`, e.g.
+
+	VTI, 100, 12/2/2015,
+	VXUS, 40, 1/1/1027,
+
+After adding your portfolio, determine how much cash you want to use to re-balance. For example, for $1000, run the following in the command line
+
+	> python balance_portfolio.py 1000
+
+This will produce an output of the form
+
+	Net return on principal: 0.5346585469336369 
+
+	Investing strategy:
+	VTI : 4
+	VXUS : 79
+
+	Residual balance:  114.63000000000648
+	Residual drift:  34.01671763159314 % 
+
+As a default, portbalance assumes a 100% stock Bogleheads portfolio (70% US domestic, 30% international index funds). To change the strategy to another one of the defaults, specify the strategy as an optional argument
+
+	> python balance_portfolio.py 1000 --allocation 
+
+Which will produce the output
+
+	Net return on principal: 0.5346585469336369 
+
+	Investing strategy:
+	VEA : 60
+	VXUS : 18
+	VOE : 3
+	VTV : 9
+
+	Residual balance:  83.24000000000251
+	Residual drift:  81.87810965693635 % 
+
+The included allocation strategies are "Bogleheads", "Betterment2016", and "Betterment2018". Please note that these strategies (which are not necessarily accurate) are given for educational purposes only.
+
+For details on specifying a custom allocation strategy, specifying a portfolio as a string, and plotting the performance over time, see the included demonstration notebook `demos/demo.ipynb` for a step-by-step walkthrough.
+
+
 
 
 ### Assumptions
@@ -54,6 +93,6 @@ Demonstrative investment portfolio strategies are contained in the function `get
 In order to calculate a reasonable strategy, this code makes a few assumtions
 + No sells. This code finds the best way to invest additional money into your existing portfolio, but it will not include selling off current assests as part of its strategy
 + Greedy. Currently, the algorithm used by the app decides the best stock choice on a buy-by-buy basis. A more sophisticated algorithm would perform a full convex optimization given constraints on investment. However, this is asymptotically equivalent to the results of the greedy algorithm in the limit of large portfolios (>$5k or so)
-+ Allocations. The "target portfolios" are based entirely on crowdsourced suggestions on public forums like the Bogleheads website. Much better long-term performance likely may be achieved by using a unique portfolio strategy based on professional and individualized research.
++ Allocations. The "target portfolios" are based entirely on crowdsourced suggestions on public forums like the Bogleheads website. They are not necessarily accurate or recommended.
 
 
